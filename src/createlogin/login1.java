@@ -181,7 +181,8 @@ public class login1 extends javax.swing.JFrame {
                 field s = new field();
                 s.setVisible(true);
                 setVisible(false);*/
-               new field(username.getText()).setVisible(true);
+            new  field(username.getText()).setVisible(true);
+            DecryptPage.main(null);
             }
             else{
                 JOptionPane.showMessageDialog(null, "Username and Password not correct"); 
