@@ -180,7 +180,7 @@ public class DecryptPage extends JFrame {
 				
 			}
 		});*/
-                 String sql = "Select image from users where username=muthu";
+                /* String sql = "Select image from users where username=muthu";
         try{
             con=DriverManager.getConnection("jdbc:derby://localhost:1527/mytest", "mytest", "mytest");
             pst = con.prepareStatement(sql);
@@ -201,7 +201,7 @@ public class DecryptPage extends JFrame {
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null, e); 
-        }
+        }*/
         
 		
 		// Convert encrypted images into decrypted output
