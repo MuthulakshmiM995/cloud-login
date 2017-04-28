@@ -169,7 +169,7 @@ public class login1 extends javax.swing.JFrame {
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
         // TODO add your handling code here:
         
-        String sql = "Select * from users where username=? and password=?";
+        String sql = "Select * from users where username=?,password=?";
         try{
             con=DriverManager.getConnection("jdbc:derby://localhost:1527/mytest", "mytest", "mytest");
             pst = con.prepareStatement(sql);
@@ -182,7 +182,9 @@ public class login1 extends javax.swing.JFrame {
                 s.setVisible(true);
                 setVisible(false);*/
             new  field(username.getText()).setVisible(true);
+          
             DecryptPage.main(null);
+
             }
             else{
                 JOptionPane.showMessageDialog(null, "Username and Password not correct"); 

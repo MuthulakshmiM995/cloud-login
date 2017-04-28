@@ -28,8 +28,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.EventQueue;
 import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.sql.*;
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
 
 public class DecryptPage extends JFrame {
+    Connection con = null;
+    ResultSet rs = null;
+    PreparedStatement pst = null;
 	
 	private static final long serialVersionUID = 1L;
 
@@ -111,7 +124,7 @@ public class DecryptPage extends JFrame {
 		});
 		
 		// Allow user to select second image to decrypt
-		JButton btnImage2 = new JButton("Image 2");
+		/*JButton btnImage2 = new JButton("Image 2");
 		GridBagConstraints gbc_btnImage2 = new GridBagConstraints();
 		gbc_btnImage2.fill = GridBagConstraints.BOTH;
 		gbc_btnImage2.insets = new Insets(0, 50, 5, 50);
@@ -135,10 +148,10 @@ public class DecryptPage extends JFrame {
 				// Display image 2
 				Main.image2 = ImageFunctions.Display(Main.image2_file, "Image 2");
 			}
-		});
+		});*/
 		
 		// Choose a path for output to be saved
-		JButton btnSaveImage = new JButton("Save Image");
+		/*JButton btnSaveImage = new JButton("Save Image");
 		GridBagConstraints gbc_btnSaveImage = new GridBagConstraints();
 		gbc_btnSaveImage.fill = GridBagConstraints.BOTH;
 		gbc_btnSaveImage.insets = new Insets(0, 50, 5, 50);
@@ -166,7 +179,30 @@ public class DecryptPage extends JFrame {
 				}
 				
 			}
-		});
+		});*/
+                 String sql = "Select image from users where username=muthu";
+        try{
+            con=DriverManager.getConnection("jdbc:derby://localhost:1527/mytest", "mytest", "mytest");
+            pst = con.prepareStatement(sql);
+           
+           rs=pst.executeQuery("Select image from users where username=muthu");
+           while (rs.next()) {
+
+           Blob test= rs.getBlob("photo");
+            int blobLength = (int) test.length();
+           byte[] blobAsBytes = test.getBytes(1, blobLength);
+
+
+          Main.image = ImageIO.read( new ByteArrayInputStream( blobAsBytes )); 
+
+
+            }
+
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e); 
+        }
+        
 		
 		// Convert encrypted images into decrypted output
 		JButton btnDecrypt = new JButton("Decrypt");
@@ -174,7 +210,7 @@ public class DecryptPage extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				// Decrypt and display the encoded images
-				Main.decrypt_image = ImageFunctions.Decrypt(Main.image1, Main.image2);
+				Main.decrypt_image = ImageFunctions.Decrypt(Main.image1, Main.image);
 				ImageFunctions.Display_Image(Main.decrypt_image, "Decrypted Image");
 				
 				// Save the decrypted image
@@ -186,7 +222,7 @@ public class DecryptPage extends JFrame {
 				ImageFunctions.Save(Main.normal_size_decrypted_image, Main.normal_size_decrypted_file);
 			}
 		});
-		GridBagConstraints gbc_btnDecrypt = new GridBagConstraints();
+        	GridBagConstraints gbc_btnDecrypt = new GridBagConstraints();
 		gbc_btnDecrypt.fill = GridBagConstraints.BOTH;
 		gbc_btnDecrypt.insets = new Insets(0, 50, 0, 50);
 		gbc_btnDecrypt.gridx = 0;
